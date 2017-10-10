@@ -92,12 +92,6 @@ class Grass:
 
 num=0
 
-
-
-
-
-
-
     
 def handle_events():
         global running
@@ -122,8 +116,9 @@ def handle_events():
             elif event.type == SDL_MOUSEBUTTONDOWN:
                 x, y = event.x, 600 - event.y
                 team[num].x,team[num].y = x,y
-                
-               
+                print("소년의 번호:",num+1)
+              
+
 
 def main():
 
@@ -135,7 +130,7 @@ def main():
     running = True
     while running:
         handle_events()
-
+        
         for boy in team:
             boy.update()
 
