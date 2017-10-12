@@ -4,6 +4,8 @@ os.chdir('C:\\Users\\LG\\Desktop\\2d')
 
 import random
 
+import numbers
+
 from pico2d import *
 
 
@@ -61,12 +63,17 @@ class Boy:
         self.x,self.y =  random.randint(100, 700), 90
         self.frame = random.randint(0,7)
         self.dir = 1
+        self.index = 0
         self.state = self.RIGHT_RUN
         if Boy.image == None:
             Boy.image = load_image('animation_sheet.png')
       
     def draw(self):
         self.image.clip_draw(self.frame * 100, self.state * 100, 100, 100,self.x, self.y)
+        numbers.draw(self.index, self.x + 20, self.y - 20, 0.5)
+        
+
+
 
     handle_state = {
     LEFT_RUN: handle_left_run,
@@ -97,6 +104,7 @@ def handle_events():
         global running
         global x, y
         global num
+       
         events = get_events()
         for event in events:
             if event.type == SDL_QUIT:
@@ -108,16 +116,20 @@ def handle_events():
             elif event.type == SDL_KEYDOWN:
                 if event.key == SDLK_DOWN:
                     num -= 1
+                    print("소년의 번호:",num+1)
                 if event.key == SDLK_UP:
                     num += 1
+                    print("소년의 번호:",num+1)
 
                
 
-            elif event.type == SDL_MOUSEBUTTONDOWN:
+            elif event.type == SDL_MOUSEMOTION:
                 x, y = event.x, 600 - event.y
                 team[num].x,team[num].y = x,y
-                print("소년의 번호:",num+1)
-              
+                for boy in team:
+                    team[num].index = num+1
+                
+            
 
 
 def main():
@@ -130,6 +142,8 @@ def main():
     running = True
     while running:
         handle_events()
+
+
         
         for boy in team:
             boy.update()
@@ -139,6 +153,8 @@ def main():
 
         for boy in team:
             boy.draw()   
+
+        numbers.draw(num+1,740,540)
 
         update_canvas()
 
